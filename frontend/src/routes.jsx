@@ -1,6 +1,7 @@
 import Laytout from '@/component/Laytout'
-import { createBrowserRouter } from 'react-router-dom'
 import HomePage from '@/model/HomePage'
+import { createBrowserRouter } from 'react-router-dom'
+import Products from './model/Products'
 
 const router = createBrowserRouter([
 	{
@@ -12,8 +13,8 @@ const router = createBrowserRouter([
 				element: <HomePage />,
 			},
 			{
-				path: 'about',
-				element: <h1>About Page</h1>,
+				path: '/:id',
+				element: <Products />,
 			},
 		],
 	},

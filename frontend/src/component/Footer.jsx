@@ -6,7 +6,7 @@ import { RiQrCodeLine } from 'react-icons/ri'
 
 export const Footer = () => {
 	return (
-		<footer className='bg-red-600 w-full h-[70px] rounded-t-xl z-10 fixed bottom-0'>
+		<footer className='bg-[#181a1b] w-full h-[70px] rounded-t-xl z-10 fixed bottom-0'>
 			<div className='container grid grid-cols-4 items-center justify-items-center mx-auto max-w-[600px]  h-full'>
 				<FootbarItem>
 					<FaPencil className='text-2xl' />
