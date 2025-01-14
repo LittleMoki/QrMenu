@@ -9,9 +9,11 @@ const Products = () => {
 			<span className='bg-red-600 p-3 rounded-full flex justify-center '>
 				<FaPlus />
 			</span>
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
+			<section className='flex flex-col gap-4 py-4'>
+				<ProductCard />
+				<ProductCard />
+				<ProductCard />
+			</section>
 		</>
 	)
 }

@@ -1,10 +1,10 @@
-import { FaPencil } from 'react-icons/fa6'
+import PlaceEditForm from './PlaceEditButton'
 
-const HomePageTitle = ({ children }) => {
+const HomePageTitle = ({ data }) => {
 	return (
 		<h1 className='flex gap-3 items-center pb-4 text-white'>
-			<span className='text-3xl'>{children}</span>
-			<FaPencil className='text-xl cursor-pointer' />
+			<span className='text-3xl'>{data?.name}</span>
+			<PlaceEditForm data={data} />
 		</h1>
 	)
 }

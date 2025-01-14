@@ -4,7 +4,7 @@ import OptionsButton from './OptionsButton'
 
 const ProductCard = () => {
 	return (
-		<Card className='py-4 w-full'>
+		<Card className='py-4 w-full dark'>
 			<CardHeader className='pb-0 relative pt-2 px-4 flex-col items-start'>
 				<div className='absolute right-0 top-0 z-10'>
 					<OptionsButton />

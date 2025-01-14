@@ -1,0 +1,107 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Place {
+  id          Int      @id @default(autoincrement())
+  name        String
+  currency    String
+  description String?
+  address     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  bgImage     Json?
+  city        String?
+  country     String?
+  phone       String?
+  wifi        String?
+}
+
+model Menu {
+  id         String         @id @default(uuid())
+  isVisible  Boolean        @default(true)
+  name       String
+  categories MenuCategory[]
+}
+
+model MenuCategory {
+  id              String     @id @default(uuid())
+  image           String?
+  croppedImage    String?
+  position        Int        @default(0)
+  isVisible       Boolean    @default(true)
+  imageCropParams Json?
+  name            String
+  description     String?
+  // Relations
+  menu            Menu       @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  menuId          String
+  items           MenuItem[]
+}
+
+model MenuItem {
+  id              String       @id @default(uuid())
+  price           Float        @default(0)
+  image           String?
+  croppedImage    String?
+  isAvailable     Boolean      @default(true)
+  isVisible       Boolean      @default(true)
+  position        Int          @default(0)
+  imageCropParams Json?
+  badge           String[]
+  name            String
+  description     String?
+  weight          String?
+  // Relations
+  category        MenuCategory @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
+  menuCategoryId  String
+  variant         ItemVariant?
+  addons          ItemAddon[]
+}
+
+model ItemVariant {
+  id      String          @id @default(uuid())
+  item    MenuItem        @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  itemId  String          @unique
+  options VariantOption[]
+}
+
+model VariantOption {
+  id        String      @id @default(uuid())
+  price     Float
+  variant   ItemVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  variantId String
+  title     String
+}
+
+model ItemAddon {
+  id         String        @id @default(uuid())
+  selectType SelectType
+  items      MenuItem[]
+  options    AddonOption[]
+  title      String
+}
+
+enum SelectType {
+  SINGLE
+  MULTI
+}
+
+model AddonOption {
+  id      String    @id @default(uuid())
+  price   Float
+  addon   ItemAddon @relation(fields: [addonId], references: [id], onDelete: Cascade)
+  addonId String
+  title   String
+}

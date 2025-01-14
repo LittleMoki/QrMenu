@@ -2,6 +2,9 @@ import Laytout from '@/component/Laytout'
 import HomePage from '@/model/HomePage'
 import { createBrowserRouter } from 'react-router-dom'
 import Products from './model/Products'
+import QrCodePage from './model/QrCodePage'
+import SettingsPage from './model/SettingsPage'
+import LayoutSetting from './component/LayoutSetting'
 
 const router = createBrowserRouter([
 	{
@@ -15,6 +18,20 @@ const router = createBrowserRouter([
 			{
 				path: '/:id',
 				element: <Products />,
+			},
+		],
+	},
+	{
+		path: '/',
+		element: <LayoutSetting />,
+		children: [
+			{
+				path: '/qrcode',
+				element: <QrCodePage />,
+			},
+			{
+				path: '/settings',
+				element: <SettingsPage />,
 			},
 		],
 	},

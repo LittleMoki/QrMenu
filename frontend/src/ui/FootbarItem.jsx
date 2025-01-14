@@ -1,8 +1,10 @@
-const FootbarItem = ({ children }) => {
+import { Link } from 'react-router'
+
+const FootbarItem = ({ children, link = '/' }) => {
 	return (
-		<div className='flex flex-col gap-1 items-center text-[12px]'>
+		<Link to={link} className='flex flex-col gap-1 items-center text-[12px]'>
 			{children}
-		</div>
+		</Link>
 	)
 }
 

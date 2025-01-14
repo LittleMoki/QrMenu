@@ -1,11 +1,11 @@
 import PlaceInfoAddress from '@/ui/PlaceInfoAddress'
 import PlaceInfoDescription from '@/ui/PlaceInfoDescription'
 
-const PlaceInfo = () => {
+const PlaceInfo = ({ data }) => {
 	return (
 		<>
-			<PlaceInfoAddress />
-			<PlaceInfoDescription />
+			<PlaceInfoAddress {...data} />
+			<PlaceInfoDescription {...data} />
 		</>
 	)
 }
