@@ -39,7 +39,6 @@ model MenuCategory {
   id              String     @id @default(uuid())
   image           String?
   croppedImage    String?
-  position        Int        @default(0)
   isVisible       Boolean    @default(true)
   imageCropParams Json?
   name            String
@@ -57,12 +56,10 @@ model MenuItem {
   croppedImage    String?
   isAvailable     Boolean      @default(true)
   isVisible       Boolean      @default(true)
-  position        Int          @default(0)
   imageCropParams Json?
   badge           String[]
   name            String
   description     String?
-  weight          String?
   // Relations
   category        MenuCategory @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
   menuCategoryId  String

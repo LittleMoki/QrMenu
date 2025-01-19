@@ -1,5 +1,5 @@
 import { usePlaceDataMutation } from '@/api/PlaceApiHook'
-import { Button, Form, Input, Textarea } from '@nextui-org/react'
+import { Button, Form, Input, Spinner, Textarea } from '@nextui-org/react'
 import { useMemo, useState } from 'react'
 
 const PlaceEditForm = ({ fnOnClose, data }) => {
@@ -9,7 +9,7 @@ const PlaceEditForm = ({ fnOnClose, data }) => {
 	}, [])
 	const [errors, setErrors] = useState({})
 
-	const { mutate } = usePlaceDataMutation(placeId)
+	const { mutate, isPending } = usePlaceDataMutation(placeId)
 
 	const onSubmit = e => {
 		e.preventDefault()
@@ -128,10 +128,10 @@ const PlaceEditForm = ({ fnOnClose, data }) => {
 				/>
 				<div className='flex gap-4 pb-3'>
 					<Button
-						onPress={fnOnClose}
 						className='w-full'
 						color='primary'
 						type='submit'
+						isLoading={isPending && <Spinner />}
 					>
 						Сохранить
 					</Button>

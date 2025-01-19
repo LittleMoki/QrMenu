@@ -12,10 +12,9 @@ import {
 } from '@nextui-org/react'
 import { useState } from 'react'
 import { BiEditAlt } from 'react-icons/bi'
-const MenuPutButton = ({ name, isVisible: isVi, id }) => {
-	console.log(id)
+const MenuPutButton = ({ name, isVisible: isVi, id, isLoading }) => {
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
-	const { mutate } = useMenuDataMutationPut(id)
+	const { mutate, isPending } = useMenuDataMutationPut(id)
 
 	const [submitted, setSubmitted] = useState({
 		name: name,
@@ -94,16 +93,11 @@ const MenuPutButton = ({ name, isVisible: isVi, id }) => {
 									>
 										Меню видимо
 									</Checkbox>
-									<div className='flex gap-3'>
+									<div className='flex w-full pb-3 justify-center gap-3'>
 										<Button color='danger' variant='flat' onPress={onClose}>
 											Закрыть
 										</Button>
-										<Button
-											onPress={onClose}
-											className='w-full'
-											color='primary'
-											type='submit'
-										>
+										<Button disabled={isPending} color='primary' type='submit'>
 											Сохранить
 										</Button>
 									</div>

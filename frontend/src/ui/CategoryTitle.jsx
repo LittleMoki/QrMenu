@@ -1,11 +1,12 @@
-import { FaPencil } from 'react-icons/fa6'
-
-const CategoryTitle = ({ children }) => {
+const CategoryTitle = ({ children, title, description }) => {
 	return (
-		<h2 className='flex gap-2 py-3'>
-			<span className='text-xl'>{children}</span>
-			<FaPencil className='text-xl cursor-pointer' />
-		</h2>
+		<>
+			<h2 className='flex items-center gap-2 py-3'>
+				<span className='text-xl'>{title}</span>
+				<div className='text-xl'>{children}</div>
+			</h2>
+			<p>{description}</p>
+		</>
 	)
 }
 

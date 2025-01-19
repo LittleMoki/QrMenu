@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { MenuItemService } from './menu-item.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CreateMenuItemDto } from './dto/create-menu-item.dto';
 import { UpdateMenuItemDto } from './dto/update-menu-item.dto';
+import { MenuItemService } from './menu-item.service';
 
 @Controller('menu-item')
 export class MenuItemController {
@@ -19,16 +27,19 @@ export class MenuItemController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.menuItemService.findOne(+id);
+    return this.menuItemService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMenuItemDto: UpdateMenuItemDto) {
-    return this.menuItemService.update(+id, updateMenuItemDto);
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateMenuItemDto: UpdateMenuItemDto,
+  ) {
+    return this.menuItemService.update(id, updateMenuItemDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.menuItemService.remove(+id);
+    return this.menuItemService.remove(id);
   }
 }

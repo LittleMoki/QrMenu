@@ -1,17 +1,21 @@
+import { useMenuCategoryData } from '@/api/MenuCategoryApiHook'
 import CategoryItem from '@/ui/CategoryItem'
-import { FaPlus } from 'react-icons/fa6'
+import MenuCategoryForm from '@/ui/MenuCategoryButton'
+import { useContext } from 'react'
+import { MenuContext } from '../../context'
 
 const Category = () => {
+	const { id } = useContext(MenuContext)
+	const { data } = useMenuCategoryData()
+
 	return (
 		<div className='py-3 flex flex-col gap-4'>
-			<span className='bg-red-600 p-3 rounded-full flex justify-center '>
-				<FaPlus />
-			</span>
-			<CategoryItem />
-			<CategoryItem />
-			<CategoryItem />
-			<CategoryItem />
-			<CategoryItem />
+			<MenuCategoryForm id={id} data={data} />
+			{data
+				?.filter(el => el.menuId === id)
+				.map(el => (
+					<CategoryItem key={el.id} data={el} />
+				))}
 		</div>
 	)
 }

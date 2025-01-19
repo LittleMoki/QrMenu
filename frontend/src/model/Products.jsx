@@ -1,18 +1,46 @@
+import { useMenuCategoryDataById } from '@/api/MenuCategoryApiHook'
 import CategoryTitle from '@/ui/CategoryTitle'
+import LoadingSkeleton from '@/ui/LoadingSkeleton'
+import MenuCategoryButton from '@/ui/MenuCategoryButton'
+import MenuItemButton from '@/ui/MenuItemButton'
 import ProductCard from '@/ui/ProductCard'
-import { FaPlus } from 'react-icons/fa6'
+import { useDisclosure } from '@nextui-org/react'
+import { useState } from 'react'
+import { useParams } from 'react-router'
 
 const Products = () => {
+	const { id } = useParams()
+	const { data, isLoading } = useMenuCategoryDataById(id)
+	const { isOpen, onOpen, onOpenChange } = useDisclosure()
+	const [menuItemId, setMenuItemId] = useState('')
+	if (isLoading) return <LoadingSkeleton />
 	return (
 		<>
-			<CategoryTitle>Пиццы (11:00 - 21:00)</CategoryTitle>
-			<span className='bg-red-600 p-3 rounded-full flex justify-center '>
-				<FaPlus />
-			</span>
+			<CategoryTitle description={data?.description} title={data?.name}>
+				<MenuCategoryButton data={data} id={id} />
+			</CategoryTitle>
+			<MenuItemButton
+				isOpen={isOpen}
+				onOpen={onOpen}
+				onOpenChange={onOpenChange}
+				setMenuItemId={setMenuItemId}
+			/>
+
 			<section className='flex flex-col gap-4 py-4'>
-				<ProductCard />
-				<ProductCard />
-				<ProductCard />
+				{data?.items?.map(item => (
+					<ProductCard
+						key={item.id}
+						isOpen={isOpen}
+						onOpen={onOpen}
+						onOpenChange={onOpenChange}
+						setMenuItemId={setMenuItemId}
+						data={item}
+						menuItemId={menuItemId}
+					/>
+				))}
+				{data?.items.length === 0 && (
+					<p className='text-center'>Нет продуктов в этой категории</p>
+				)}
 			</section>
 		</>
 	)

@@ -10,8 +10,6 @@ export const useMenuData = () => {
 	})
 }
 
-
-
 export const useMenuDataMutationPost = () => {
 	const queryClient = useQueryClient()
 
@@ -42,6 +40,7 @@ export const useMenuDataMutationDelete = () => {
 	const queryClient = useQueryClient()
 
 	return useMutation({
+		mutationKey: ['menuDelete'],
 		mutationFn: menuId => axios.delete(`${api}/menu/${menuId}`),
 		onSuccess: () => {
 			queryClient.invalidateQueries(['menu'])

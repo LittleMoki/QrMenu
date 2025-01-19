@@ -15,7 +15,7 @@ export const usePlaceDataMutation = placeId => {
 	const queryClient = useQueryClient()
 
 	return useMutation({
-		mutationKey: ['place'],
+		mutationKey: ['placeCreat'],
 		mutationFn: data => axios.put(`${api}/place/${placeId}`, data),
 		onSuccess: () => {
 			// Используем queryClient для вызова invalidateQueries

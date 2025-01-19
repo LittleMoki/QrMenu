@@ -8,6 +8,7 @@ import {
 	ModalBody,
 	ModalContent,
 	ModalHeader,
+	Spinner,
 	useDisclosure,
 } from '@nextui-org/react'
 import { useState } from 'react'
@@ -17,26 +18,16 @@ const MenuAddButton = () => {
 	const [submitted, setSubmitted] = useState()
 	const [isVisible, setIsVisible] = useState(true)
 	const [errors, setErrors] = useState({})
-	const { mutate } = useMenuDataMutationPost()
+	const { mutate, isPending } = useMenuDataMutationPost()
 	const onSubmit = e => {
 		e.preventDefault()
 		const data = Object.fromEntries(new FormData(e.currentTarget))
 
-		// Custom validation checks
-		const newErrors = {}
-
-		if (Object.keys(newErrors).length > 0) {
-			setErrors(newErrors)
-
-			return
-		}
-
-		setErrors({})
 		mutate({
 			name: data.name,
 			isVisible: data.isVisible ? true : false,
 		})
-		setSubmitted(data)
+		setSubmitted({})
 	}
 	return (
 		<>
@@ -65,9 +56,11 @@ const MenuAddButton = () => {
 										isRequired
 										errorMessage={({ validationDetails }) => {
 											if (validationDetails.valueMissing) {
+												setErrors(true)
 												return 'Пожалуйста напишите название меню'
 											}
 
+											setErrors(false)
 											return errors.name
 										}}
 										label='Название заведения'
@@ -88,13 +81,13 @@ const MenuAddButton = () => {
 									>
 										Меню видимо
 									</Checkbox>
-									<div className='flex gap-3'>
+									<div className='flex pb-3 w-full justify-center gap-3'>
 										<Button color='danger' variant='flat' onPress={onClose}>
 											Закрыть
 										</Button>
 										<Button
-											onPress={onClose}
-											className='w-full'
+											isLoading={isPending && <Spinner />}
+											disabled={isPending}
 											color='primary'
 											type='submit'
 										>

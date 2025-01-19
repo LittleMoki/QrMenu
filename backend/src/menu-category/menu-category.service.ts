@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
 import { CreateMenuCategoryDto } from './dto/create-menu-category.dto';
 import { UpdateMenuCategoryDto } from './dto/update-menu-category.dto';
 
 @Injectable()
 export class MenuCategoryService {
-  create(createMenuCategoryDto: CreateMenuCategoryDto) {
-    return 'This action adds a new menuCategory';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createMenuCategoryDto: CreateMenuCategoryDto) {
+    return await this.prisma.menuCategory.create({
+      data: {
+        image: createMenuCategoryDto.image,
+        croppedImage: createMenuCategoryDto.croppedImage,
+        isVisible: createMenuCategoryDto.isVisible,
+        imageCropParams: createMenuCategoryDto.imageCropParams,
+        name: createMenuCategoryDto.name,
+        description: createMenuCategoryDto.description,
+        menuId: createMenuCategoryDto.menuId,
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all menuCategory`;
+  async findAll() {
+    return await this.prisma.menuCategory.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menuCategory`;
+  async findOne(id: string) {
+    return await this.prisma.menuCategory.findUnique({
+      where: { id },
+      include: {
+        items: true,
+      },
+    });
   }
 
-  update(id: number, updateMenuCategoryDto: UpdateMenuCategoryDto) {
-    return `This action updates a #${id} menuCategory`;
+  async update(id: string, updateMenuCategoryDto: UpdateMenuCategoryDto) {
+    return await this.prisma.menuCategory.update({
+      where: { id },
+      data: {
+        image: updateMenuCategoryDto.image,
+        croppedImage: updateMenuCategoryDto.croppedImage,
+        isVisible: updateMenuCategoryDto.isVisible,
+        imageCropParams: updateMenuCategoryDto.imageCropParams,
+        name: updateMenuCategoryDto.name,
+        description: updateMenuCategoryDto.description,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} menuCategory`;
+  async remove(id: string) {
+    return await this.prisma.menuCategory.delete({
+      where: { id },
+    });
   }
 }
