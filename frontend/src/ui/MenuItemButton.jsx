@@ -9,6 +9,7 @@ const MenuItemButton = ({
 	data,
 	setMenuItemId,
 	menuItemId,
+	categoryName,
 }) => {
 	return (
 		<>
@@ -34,6 +35,7 @@ const MenuItemButton = ({
 
 			<MenuItemForm
 				data={data}
+				categoryName={categoryName}
 				menuItemId={menuItemId}
 				isOpen={isOpen}
 				onOpenChange={onOpenChange}

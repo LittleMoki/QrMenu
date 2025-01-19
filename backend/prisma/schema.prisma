@@ -50,36 +50,29 @@ model MenuCategory {
 }
 
 model MenuItem {
-  id              String       @id @default(uuid())
-  price           Float        @default(0)
+  id              String          @id @default(uuid())
+  price           Float           @default(0)
   image           String?
   croppedImage    String?
-  isAvailable     Boolean      @default(true)
-  isVisible       Boolean      @default(true)
+  isAvailable     Boolean         @default(true)
+  isVisible       Boolean         @default(true)
   imageCropParams Json?
   badge           String[]
   name            String
   description     String?
   // Relations
-  category        MenuCategory @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
+  category        MenuCategory    @relation(fields: [menuCategoryId], references: [id], onDelete: Cascade)
   menuCategoryId  String
-  variant         ItemVariant?
+  variant         VariantOption[]
   addons          ItemAddon[]
 }
 
-model ItemVariant {
-  id      String          @id @default(uuid())
-  item    MenuItem        @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  itemId  String          @unique
-  options VariantOption[]
-}
-
 model VariantOption {
-  id        String      @id @default(uuid())
-  price     Float
-  variant   ItemVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  variantId String
-  title     String
+  id         String    @id @default(uuid())
+  price      Float
+  title      String
+  menuItem   MenuItem? @relation(fields: [menuItemId], references: [id])
+  menuItemId String?
 }
 
 model ItemAddon {

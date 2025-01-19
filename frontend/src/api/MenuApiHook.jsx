@@ -18,7 +18,7 @@ export const useMenuDataMutationPost = () => {
 		mutationFn: data => axios.post(`${api}/menu`, data),
 		onSuccess: () => {
 			// Используем queryClient для вызова invalidateQueries
-			queryClient.invalidateQueries(['menu'])
+			queryClient.invalidateQueries({ queryKey: ['menu'] })
 		},
 	})
 }
@@ -31,7 +31,7 @@ export const useMenuDataMutationPut = menuId => {
 		mutationFn: data => axios.put(`${api}/menu/${menuId}`, data),
 		onSuccess: () => {
 			// Используем queryClient для вызова invalidateQueries
-			queryClient.invalidateQueries(['menu'])
+			queryClient.invalidateQueries({ queryKey: ['menu'] })
 		},
 	})
 }
@@ -43,7 +43,7 @@ export const useMenuDataMutationDelete = () => {
 		mutationKey: ['menuDelete'],
 		mutationFn: menuId => axios.delete(`${api}/menu/${menuId}`),
 		onSuccess: () => {
-			queryClient.invalidateQueries(['menu'])
+			queryClient.invalidateQueries({ queryKey: ['menu'] })
 		},
 	})
 }

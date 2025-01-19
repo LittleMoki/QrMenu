@@ -12,11 +12,24 @@ export class MenuItemService {
       data: {
         name: createMenuItemDto.name,
         description: createMenuItemDto.description,
-        price: createMenuItemDto.price,
+        price: createMenuItemDto.price || 0,
         image: createMenuItemDto.image,
         isAvailable: createMenuItemDto.isAvailable,
         isVisible: createMenuItemDto.isVisible,
-        menuCategoryId: createMenuItemDto.categoryId,
+        category: {
+          connect: {
+            id: createMenuItemDto.categoryId,
+          },
+        },
+        addons: {
+          connect: createMenuItemDto.addons.map((id) => ({ id })),
+        },
+        variant: {
+          create: createMenuItemDto.variant.map((el) => ({
+            title: el.title,
+            price: Number(el.price),
+          })),
+        },
       },
     });
   }
@@ -25,6 +38,7 @@ export class MenuItemService {
     return await this.prisma.menuItem.findMany({
       include: {
         category: true,
+        addons: true,
       },
     });
   }
@@ -42,21 +56,30 @@ export class MenuItemService {
     const existingItem = await this.prisma.menuItem.findUnique({
       where: { id },
     });
-    console.log(updateMenuItemDto);
     if (!existingItem) {
       throw new Error(`MenuItem with id ${id} not found`);
     }
-
     return await this.prisma.menuItem.update({
       where: { id },
       data: {
         name: updateMenuItemDto.name,
         description: updateMenuItemDto.description,
-        price: updateMenuItemDto.price,
+        price: Number(updateMenuItemDto.price),
         image: updateMenuItemDto.image,
         isAvailable: updateMenuItemDto.isAvailable,
         isVisible: updateMenuItemDto.isVisible,
         menuCategoryId: updateMenuItemDto.categoryId,
+        addons: {
+          set: [],
+          connect: updateMenuItemDto.addons.map((id) => ({ id })),
+        },
+        variant: {
+          set: [],
+          create: updateMenuItemDto.variant.map((el) => ({
+            title: el.title,
+            price: Number(el.price),
+          })),
+        },
       },
     });
   }

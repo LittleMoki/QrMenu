@@ -5,7 +5,7 @@ import { PrismaService } from '../prisma.service';
 export class MenuService {
   constructor(private prisma: PrismaService) {}
 
-  async createMenu(data: { name: string, isVisible?: boolean }) {
+  async createMenu(data: { name: string; isVisible?: boolean }) {
     const newMenu = await this.prisma.menu.create({
       data,
     });
@@ -24,7 +24,7 @@ export class MenuService {
     return menu;
   }
 
-  async updateMenu(id: string, data: { name?: string, isVisible?: boolean }) {
+  async updateMenu(id: string, data: { name?: string; isVisible?: boolean }) {
     const updatedMenu = await this.prisma.menu.update({
       where: { id },
       data,

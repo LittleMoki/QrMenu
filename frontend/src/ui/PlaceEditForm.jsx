@@ -15,15 +15,6 @@ const PlaceEditForm = ({ fnOnClose, data }) => {
 		e.preventDefault()
 		const data = Object.fromEntries(new FormData(e.currentTarget))
 
-		// Custom validation checks
-		const newErrors = {}
-
-		if (Object.keys(newErrors).length > 0) {
-			setErrors(newErrors)
-
-			return
-		}
-
 		// Clear errors and submit
 		setErrors({})
 		setSubmitted(data)

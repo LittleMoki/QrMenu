@@ -36,6 +36,7 @@ const Products = () => {
 						setMenuItemId={setMenuItemId}
 						data={item}
 						menuItemId={menuItemId}
+						categoryName={data?.name}
 					/>
 				))}
 				{data?.items.length === 0 && (

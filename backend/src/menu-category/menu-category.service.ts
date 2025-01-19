@@ -29,7 +29,16 @@ export class MenuCategoryService {
     return await this.prisma.menuCategory.findUnique({
       where: { id },
       include: {
-        items: true,
+        items: {
+          include:{
+            variant:true,
+            addons:{
+              include:{
+                options: true,
+              }
+            }
+          }
+        },
       },
     });
   }

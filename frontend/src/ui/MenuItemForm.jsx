@@ -1,3 +1,4 @@
+import { useMenuCategoryData } from '@/api/MenuCategoryApiHook'
 import {
 	useMenuItemMutationPost,
 	useMenuItemMutationPut,
@@ -11,22 +12,37 @@ import {
 	ModalBody,
 	ModalContent,
 	ModalHeader,
+	Spinner,
 	Textarea,
 } from '@nextui-org/react'
 import { useState } from 'react'
 import { useParams } from 'react-router'
+import AddOns from './AddOns'
+import ChooseCategory from './ChooseCategory'
+import CreateAddOns from './CreateAddOns'
 
-const MenuItemForm = ({ menuItemId, isOpen, onOpenChange, data = [] }) => {
+const MenuItemForm = ({
+	menuItemId,
+	isOpen,
+	onOpenChange,
+	categoryName,
+	data = [],
+}) => {
 	const [submitted, setSubmitted] = useState(data)
+	const [variant, setVariant] = useState(data.variant || [])
+	const [selectedAddons, setSelectedAddons] = useState(data.addons)
+	const [selectedCategory, setSelectedCategory] = useState([])
 	const [errors, setErrors] = useState({})
-	const { mutate: post } = useMenuItemMutationPost()
-	const { mutate: put } = useMenuItemMutationPut(menuItemId?.id)
+	const { mutate: post, isPending: postPending } = useMenuItemMutationPost()
+	const { mutate: put, isPending: putPending } = useMenuItemMutationPut(
+		menuItemId?.id
+	)
+	const { data: categoryData } = useMenuCategoryData()
 	const { id } = useParams()
-
 	const onSubmit = e => {
 		e.preventDefault()
+		if (e.target.id !== 'menuItemForm') return
 		const data = Object.fromEntries(new FormData(e.currentTarget))
-		// Clear errors and submit
 		setErrors({})
 		setSubmitted(data)
 		if (menuItemId !== undefined) {
@@ -34,9 +50,11 @@ const MenuItemForm = ({ menuItemId, isOpen, onOpenChange, data = [] }) => {
 				...data,
 				isVisible: data.isVisible ? true : false,
 				isAvailable: data.isAvailable ? true : false,
-				categoryId: id,
+				categoryId: selectedCategory.length > 0 ? selectedCategory[0].id : id,
 				image: data.image.name,
 				price: Number(data.price),
+				addons: selectedAddons.map(el => el.id),
+				variant: variant,
 			})
 		} else {
 			post({
@@ -46,9 +64,26 @@ const MenuItemForm = ({ menuItemId, isOpen, onOpenChange, data = [] }) => {
 				categoryId: id,
 				image: data.image.name,
 				price: Number(data.price),
+				addons: selectedAddons?.map(el => el.id) || [],
+				variant: variant,
 			})
 		}
 	}
+
+	const handleVariantChange = (index, field, value) => {
+		const updatedVariants = [...variant]
+		updatedVariants[index][field] = value
+		setVariant(updatedVariants)
+	}
+
+	const addVariant = () => {
+		setVariant([...variant, { title: '', price: 0 }])
+	}
+
+	const removeVariant = index => {
+		setVariant(variant.filter((_, i) => i !== index))
+	}
+
 	return (
 		<>
 			<Modal
@@ -67,11 +102,14 @@ const MenuItemForm = ({ menuItemId, isOpen, onOpenChange, data = [] }) => {
 							</ModalHeader>
 							<ModalBody>
 								<Form
+									id='menuItemForm'
+									onSubmit={e => {
+										onSubmit(e) // Только если это правильная форма
+									}}
 									className='w-full justify-center items-start space-y-4'
 									validationBehavior='native'
 									validationErrors={errors}
 									onReset={() => setSubmitted(null)}
-									onSubmit={onSubmit}
 								>
 									<div className='flex flex-col gap-4 w-full'>
 										<Input
@@ -88,14 +126,62 @@ const MenuItemForm = ({ menuItemId, isOpen, onOpenChange, data = [] }) => {
 											placeholder=' '
 											defaultValue={menuItemId?.name}
 										/>
-										<Input
-											label='Цена'
-											placeholder=' '
-											labelPlacement='outside'
-											name='price'
-											type='number'
-											defaultValue={menuItemId?.price}
-										/>
+										{variant.length > 0 ? (
+											variant.map((el, index) => (
+												<div className='flex flex-col gap-3' key={index}>
+													<Input
+														isRequired
+														errorMessage='Пожалуйста заполните это поле'
+														type='text'
+														placeholder='Название опции'
+														labelPlacement='outside'
+														value={el.title}
+														onChange={e =>
+															handleVariantChange(
+																index,
+																'title',
+																e.target.value
+															)
+														}
+													/>
+													<div className='flex gap-3 items-end'>
+														<Input
+															type='number'
+															placeholder='Цена'
+															labelPlacement='outside'
+															value={el.price}
+															onChange={e =>
+																handleVariantChange(
+																	index,
+																	'price',
+																	e.target.value
+																)
+															}
+														/>
+														<Button
+															color='danger'
+															variant='flat'
+															onPress={() => removeVariant(index)}
+														>
+															Удалить
+														</Button>
+													</div>
+												</div>
+											))
+										) : (
+											<Input
+												label='Цена'
+												placeholder=' '
+												labelPlacement='outside'
+												name='price'
+												type='number'
+												defaultValue={menuItemId?.price}
+											/>
+										)}
+										<Button color='primary' variant='flat' onPress={addVariant}>
+											Добавить опцию
+										</Button>
+
 										<Textarea
 											label='Описание'
 											labelPlacement='outside'
@@ -129,15 +215,29 @@ const MenuItemForm = ({ menuItemId, isOpen, onOpenChange, data = [] }) => {
 										</div>
 									</div>
 									<Input name='image' type='file' />
+
+									<AddOns
+										selectedAddons={selectedAddons}
+										setSelectedAddons={setSelectedAddons}
+									/>
+									<CreateAddOns />
+									{menuItemId !== undefined && (
+										<ChooseCategory
+											selectedCategory={selectedCategory}
+											setSelectedCategory={setSelectedCategory}
+											data={categoryData}
+											categoryName={categoryName}
+										/>
+									)}
 									<div className='flex w-full justify-center pb-3 gap-2'>
 										<Button color='danger' variant='flat' onPress={onClose}>
 											Закрыть
 										</Button>
 										<Button
-											// disabled={postPending || putPending}
+											disabled={postPending || putPending}
 											color='primary'
 											type='submit'
-											// isLoading={(postPending || putPending) && <Spinner />}
+											isLoading={(postPending || putPending) && <Spinner />}
 										>
 											Сохранить
 										</Button>
