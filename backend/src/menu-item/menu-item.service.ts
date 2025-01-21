@@ -48,6 +48,7 @@ export class MenuItemService {
       where: { id },
       include: {
         category: true,
+        addons: true,
       },
     });
   }
@@ -59,6 +60,7 @@ export class MenuItemService {
     if (!existingItem) {
       throw new Error(`MenuItem with id ${id} not found`);
     }
+
     return await this.prisma.menuItem.update({
       where: { id },
       data: {

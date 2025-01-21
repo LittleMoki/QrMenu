@@ -1,6 +1,7 @@
 import Laytout from '@/component/Laytout'
 import HomePage from '@/model/HomePage'
 import { createBrowserRouter } from 'react-router-dom'
+import Cart from './component/Cart'
 import LayoutSetting from './component/LayoutSetting'
 import Products from './model/Products'
 import QrCodePage from './model/QrCodePage'
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
 			{
 				path: '/', // Set a child route for the root path
 				element: <HomePage />,
+			},
+			{
+				path: '/cart',
+				element: <Cart />,
 			},
 			{
 				path: '/:id',

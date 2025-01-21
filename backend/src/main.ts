@@ -6,7 +6,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   const corsOptions: CorsOptions = {
-    origin: ['http://192.168.1.20:5173', 'http://localhost:5173'], // Адрес фронтенда
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:4173',
+      'http://31.128.46.248:5173',
+    ], // Адрес фронтенда
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

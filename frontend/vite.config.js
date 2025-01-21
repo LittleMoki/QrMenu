@@ -11,14 +11,14 @@ export default defineConfig({
 		},
 	},
 	server: {
-    host: '0.0.0.0', // Позволяет доступ со всех устройств
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://192.168.1.8:3000', // Backend адрес
-        changeOrigin: true,
-        secure: false,
-      },
-    },
-  },
+		host: '0.0.0.0', // Позволяет доступ со всех устройств
+		port: 5173,
+		proxy: {
+			'/api': {
+				target: 'http://http://31.128.46.248:3000', // Backend адрес
+				changeOrigin: true,
+				secure: false,
+			},
+		},
+	},
 })

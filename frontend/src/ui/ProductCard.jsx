@@ -45,7 +45,7 @@ const ProductCard = ({
 				<h2 className='font-semibold'>{data?.name}</h2>
 				<p>{data?.description}</p>
 
-				<ProductOpen />
+				<ProductOpen data={data} />
 			</CardBody>
 		</Card>
 	)
