@@ -15,7 +15,7 @@ export default defineConfig({
 		port: 5173,
 		proxy: {
 			'/api': {
-				target: 'http://http://31.128.46.248:3000', // Backend адрес
+				target: 'http://31.128.46.248:3000', // Backend адрес
 				changeOrigin: true,
 				secure: false,
 			},

@@ -9,9 +9,8 @@ async function bootstrap() {
     origin: [
       'http://localhost:5173',
       'http://localhost:4173',
-      'http://31.128.46.248:5173',
-      'http://sentai.uz/',
-      'https://sentai.uz/'
+      'https://sentai.uz',
+      'https://www.sentai.uz',
     ], // Адрес фронтенда
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
