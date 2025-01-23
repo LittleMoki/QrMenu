@@ -16,7 +16,7 @@ export const useCart = () => {
 
 	// Добавить товар
 	const addToCart = item => {
-		item.price !== 0 && setCart(prevCart => [...prevCart, item])
+		setCart(prevCart => [...prevCart, item])
 	}
 
 	// Удалить товар

@@ -1,4 +1,5 @@
 import { useMenuCategoryDataById } from '@/api/MenuCategoryApiHook'
+import { useAuth } from '@/lib/auth'
 import CategoryTitle from '@/ui/CategoryTitle'
 import LoadingSkeleton from '@/ui/LoadingSkeleton'
 import MenuCategoryButton from '@/ui/MenuCategoryButton'
@@ -13,18 +14,29 @@ const Products = () => {
 	const { data, isLoading } = useMenuCategoryDataById(id)
 	const { isOpen, onOpen, onOpenChange } = useDisclosure()
 	const [menuItemId, setMenuItemId] = useState('')
+	const { user } = useAuth()
+
 	if (isLoading) return <LoadingSkeleton />
 	return (
 		<>
 			<CategoryTitle description={data?.description} title={data?.name}>
-				<MenuCategoryButton data={data} id={id} />
+				{user?.role === 'admin' ? (
+					<MenuCategoryButton data={data} id={id} />
+				) : (
+					''
+				)}
 			</CategoryTitle>
-			<MenuItemButton
-				isOpen={isOpen}
-				onOpen={onOpen}
-				onOpenChange={onOpenChange}
-				setMenuItemId={setMenuItemId}
-			/>
+
+			{user?.role === 'admin' ? (
+				<MenuItemButton
+					isOpen={isOpen}
+					onOpen={onOpen}
+					onOpenChange={onOpenChange}
+					setMenuItemId={setMenuItemId}
+				/>
+			) : (
+				''
+			)}
 
 			<section className='flex flex-col gap-4 py-4'>
 				{data?.items?.map(item => (
@@ -39,7 +51,7 @@ const Products = () => {
 						categoryName={data?.name}
 					/>
 				))}
-				{data?.items.length === 0 && (
+				{data?.items?.length === 0 && (
 					<p className='text-center'>Нет продуктов в этой категории</p>
 				)}
 			</section>

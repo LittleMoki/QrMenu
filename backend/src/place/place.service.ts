@@ -30,7 +30,7 @@ export class PlaceService {
     return place;
   }
 
-  async updatePlace(id: number, updatePlaceDto: UpdatePlaceDto) {
+  async updatePlace(id: string, updatePlaceDto: UpdatePlaceDto) {
     const place = await this.prisma.place.findMany({});
     const placeId = place[0].id;
     return await this.prisma.place.update({

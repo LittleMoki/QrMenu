@@ -21,36 +21,37 @@ const ProductOpen = ({ data }) => {
 	const [submitted, setSubmitted] = useState()
 	const [errors, setErrors] = useState({})
 
-	const [selected, setSelected] = useState('')
-	const [selectedCheckbox, setSelectedCheckbox] = useState([])
-	const onSubmit = e => {
+	const [variant, setVariant] = useState([])
+	const [addonsPriceSingle, setAddonsPriceSingle] = useState('')
+	const [addonsPriceMultiple, setAddonsPriceMultiple] = useState([])
+
+	const onSubmit = async e => {
 		e.preventDefault()
-		const formData = Object.fromEntries(new FormData(e.currentTarget))
 		setErrors({})
-		const multipleAddonsPrice = selectedCheckbox.reduce(
-			(acc, current) => acc + Number(current),
+		const addonsMultiple = addonsPriceMultiple.reduce(
+			(acc, addon) => acc + addon.price,
 			0
 		)
-		const singleAddonPrice = formData.addonsPriceSingle
-			? Number(formData.addonsPriceSingle)
-			: 0
-		const selectedVariantPrice = selected ? Number(selected) : 0
-		const basePrice = data.price || 0
-
 		const totalPrice =
-			basePrice + multipleAddonsPrice + singleAddonPrice + selectedVariantPrice
+			data.price +
+			(addonsPriceSingle?.price || 0) +
+			addonsMultiple +
+			(variant?.price || 0)
 
 		const cartItem = {
 			id: data.id, // ID продукта
-			name: data.name,
+			addons: [...addonsPriceMultiple, addonsPriceSingle],
+			variant: variant,
 			price: totalPrice,
 		}
-
-		// Добавляем товар в корзину
-		addToCart(cartItem)
-
-		setSubmitted(totalPrice)
+		try {
+			// Добавляем товар в корзину
+			addToCart(cartItem)
+		} catch (error) {
+			console.error('Ошибка при добавлении товара в корзину:', error)
+		}
 	}
+
 	return (
 		<>
 			<div className='w-full flex justify-end'>
@@ -92,16 +93,21 @@ const ProductOpen = ({ data }) => {
 									<p className='text-base'>{data?.description}</p>
 									{data?.variant.length > 0 && (
 										<div className='mt-4'>
-											<h3 className='text-lg font-bold'>Варианты:</h3>
+											<h3 className='text-lg font-bold pb-2'>Варианты:</h3>
 											<RadioGroup
-												name='price'
+												name='variant'
 												color='danger'
-												value={selected}
-												onValueChange={setSelected}
+												value={variant}
+												onValueChange={setVariant}
 											>
 												{data?.variant.map(variant => (
-													<Radio key={variant.id} value={variant.price}>
-														{variant.title} <span>{variant.price}$</span>
+													<Radio key={variant.id} value={variant}>
+														<div className='text-xl'>
+															{variant.title}{' '}
+															<span className='text-red-600'>
+																{variant.price}$
+															</span>
+														</div>
 													</Radio>
 												))}
 											</RadioGroup>
@@ -114,10 +120,17 @@ const ProductOpen = ({ data }) => {
 												color='danger'
 												label={addons.title}
 												name='addonsPriceSingle'
+												value={addonsPriceSingle}
+												onValueChange={setAddonsPriceSingle}
 											>
 												{addons.options.map(option => (
-													<Radio key={option.id} value={option.price}>
-														{option.title} <span>{option.price}$</span>
+													<Radio key={option.id} value={option}>
+														<div className='text-xl'>
+															{option.title}{' '}
+															<span className='text-red-600'>
+																{option.price}$
+															</span>
+														</div>
 													</Radio>
 												))}
 											</RadioGroup>
@@ -127,12 +140,17 @@ const ProductOpen = ({ data }) => {
 												key={addons.id}
 												name='addonsPriceMultiple'
 												label={addons.title}
-												value={selectedCheckbox}
-												onValueChange={setSelectedCheckbox}
+												value={addonsPriceMultiple}
+												onValueChange={setAddonsPriceMultiple}
 											>
 												{addons.options.map(option => (
-													<Checkbox key={option.id} value={option.price}>
-														{option.title} <span>{option.price}$</span>
+													<Checkbox key={option.id} value={option}>
+														<div className='text-xl'>
+															{option.title}{' '}
+															<span className='text-red-600'>
+																{option.price}$
+															</span>
+														</div>
 													</Checkbox>
 												))}
 											</CheckboxGroup>
@@ -140,12 +158,7 @@ const ProductOpen = ({ data }) => {
 									)}
 
 									<div className='flex justify-center w-full'>
-										<Button
-											type='submit'
-											// onPress={onClose}
-										>
-											Добавить в корзину
-										</Button>
+										<Button type='submit'>Добавить в корзину</Button>
 									</div>
 								</Form>
 							</ModalBody>

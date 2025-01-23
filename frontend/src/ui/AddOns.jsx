@@ -1,14 +1,12 @@
 import { useAddonData } from '@/api/AddonApiHook'
 import { Autocomplete, AutocompleteItem } from '@nextui-org/react'
 
-const AddOns = ({
-	selectedAddons,
-	setSelectedAddons,
-}) => {
+const AddOns = ({ selectedAddons, setSelectedAddons }) => {
 	const { data } = useAddonData()
 	const handleSelect = addon => {
 		setSelectedAddons(prev => {
-			if (prev.some(selected => selected.id === addon.id)) {
+			if (!prev) return [addon]
+			if (prev?.some(selected => selected.id === addon.id)) {
 				// Удаление, если уже выбрано
 				return prev.filter(selected => selected.id !== addon.id)
 			}
@@ -17,7 +15,7 @@ const AddOns = ({
 	}
 	return (
 		<div className='w-full'>
-			{data && data.length > 0 ? (
+			{data && data?.length > 0 ? (
 				<Autocomplete
 					defaultItems={data}
 					label='Выберите добавки'
@@ -28,7 +26,7 @@ const AddOns = ({
 							key={addon.id}
 							onPress={() => handleSelect(addon)}
 						>
-							{addon.title}
+							{addon?.title}
 						</AutocompleteItem>
 					)}
 				</Autocomplete>

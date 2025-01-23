@@ -30,14 +30,18 @@ export class MenuCategoryService {
       where: { id },
       include: {
         items: {
-          include:{
-            variant:true,
-            addons:{
-              include:{
-                options: true,
-              }
-            }
-          }
+          include: {
+            variant: true,
+            addons: {
+              include: {
+                options: {
+                  include: {
+                    addon: true,
+                  },
+                },
+              },
+            },
+          },
         },
       },
     });

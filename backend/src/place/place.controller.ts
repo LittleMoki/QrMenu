@@ -13,6 +13,6 @@ export class PlaceController {
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updatePlaceDto: UpdatePlaceDto) {
-    return this.placeService.updatePlace(+id, updatePlaceDto);
+    return this.placeService.updatePlace(id, updatePlaceDto);
   }
 }
