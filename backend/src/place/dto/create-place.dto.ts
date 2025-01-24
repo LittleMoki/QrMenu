@@ -5,7 +5,7 @@ export class CreatePlaceDto {
   address?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  bgImage?: any[];
+  bgImage?: string;
   city?: string;
   country?: string;
   phone?: string;

@@ -1,6 +1,6 @@
 import { useAuth } from '@/lib/auth'
 import { Button } from '@nextui-org/react'
-import { FaCartShopping } from 'react-icons/fa6'
+import { FaCartShopping, FaPizzaSlice, FaUser } from 'react-icons/fa6'
 import { Link } from 'react-router'
 
 const SettingsPage = () => {
@@ -20,6 +20,24 @@ const SettingsPage = () => {
 				<FaCartShopping />
 				Моя корзина
 			</Link>
+			{user.role === 'admin' && (
+				<Link
+					to='/components'
+					className='w-full bg-[#18181b] flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
+				>
+					<FaPizzaSlice />
+					Добавки
+				</Link>
+			)}
+			{user.role === 'admin' && (
+				<Link
+					to='/users'
+					className='w-full bg-[#18181b] flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
+				>
+					<FaUser />
+					Пользователи
+				</Link>
+			)}
 		</div>
 	)
 }

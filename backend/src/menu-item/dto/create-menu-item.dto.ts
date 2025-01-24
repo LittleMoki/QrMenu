@@ -7,14 +7,12 @@ export class CreateMenuItemDto {
   isVisible?: boolean;
   categoryId: string;
   variant?: {
-    title:string;
+    title: string;
     price: number;
   }[];
-  addons?: string[];
+  addons?: any[];
   badge?: string[];
   imageCropParams?: any[];
   croppedImage?: string;
-  category:any[];
+  category: any[];
 }
-
-

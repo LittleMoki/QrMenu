@@ -4,17 +4,16 @@ import {
 } from '@/api/MenuCategoryApiHook'
 import {
 	Button,
-	Checkbox,
 	Form,
 	Input,
 	Modal,
 	ModalBody,
 	ModalContent,
 	ModalHeader,
-	Spinner,
 	Textarea,
 } from '@nextui-org/react'
 import { useState } from 'react'
+
 const MenuCategoryForm = ({ id, menuId, isOpen, onOpenChange, data = [] }) => {
 	const [submitted, setSubmitted] = useState(data)
 	const [errors, setErrors] = useState({})
@@ -25,26 +24,27 @@ const MenuCategoryForm = ({ id, menuId, isOpen, onOpenChange, data = [] }) => {
 
 	const onSubmit = e => {
 		e.preventDefault()
-		const data = Object.fromEntries(new FormData(e.currentTarget))
+		const formData = new FormData(e.currentTarget)
+		
+		// Логика для обработки ошибок и отправки данных
+		if (!!data.image === false && !!formData.get('image').name === false) {
+			setErrors(prev => ({
+				...prev,
+				image: 'Пожалуйста выберите изображение ',
+			}))
+			return
+		}
 
-		// Clear errors and submit
-		setErrors({})
-		setSubmitted(data)
-		if (data.id !== id) {
-			put({
-				...data,
-				isVisible: data.isVisible ? true : false,
-				image: data.image.name,
-			})
+		formData.append('menuId', menuId)
+		setSubmitted(Object.fromEntries(formData))
+		// Отправка данных
+		if (id) {
+			put(formData)
 		} else {
-			post({
-				...data,
-				isVisible: data.isVisible ? true : false,
-				menuId: menuId,
-				image: data.image.name,
-			})
+			post(formData)
 		}
 	}
+
 	return (
 		<Modal
 			placement='center'
@@ -87,8 +87,9 @@ const MenuCategoryForm = ({ id, menuId, isOpen, onOpenChange, data = [] }) => {
 									minRows={20}
 									placeholder=' '
 								/>
-								<Checkbox
-									value={true}
+								{/* Пока не надо todo */}
+								{/* <Checkbox
+									value={submitted.isVisible}
 									classNames={{
 										label: 'text-small',
 									}}
@@ -96,7 +97,7 @@ const MenuCategoryForm = ({ id, menuId, isOpen, onOpenChange, data = [] }) => {
 									validationBehavior='aria'
 								>
 									Категория видимо
-								</Checkbox>
+								</Checkbox> */}
 								<Input name='image' type='file' />
 
 								<div className='flex w-full justify-center pb-3 gap-2'>
@@ -107,7 +108,7 @@ const MenuCategoryForm = ({ id, menuId, isOpen, onOpenChange, data = [] }) => {
 										disabled={postPending || putPending}
 										color='primary'
 										type='submit'
-										isLoading={(postPending || putPending) && <Spinner />}
+										isLoading={postPending || putPending}
 									>
 										Сохранить
 									</Button>

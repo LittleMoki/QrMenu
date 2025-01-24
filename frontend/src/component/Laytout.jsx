@@ -24,7 +24,7 @@ const Laytout = () => {
 	return (
 		<>
 			<MenuContext.Provider value={{ id }}>
-				<Header />
+				<Header image={data?.bgImage} />
 				<main className='container mx-auto max-w-[600px] min-h-[calc(100vh-190px)] pb-16 pt-6 px-4 flex flex-col flex-grow-1 relative rounded-t-3xl mt-[-32px] bg-[#181a1b]'>
 					<HomePageTitle data={data} />
 					<PlaceInfo data={data} />

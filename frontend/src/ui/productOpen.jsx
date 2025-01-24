@@ -78,10 +78,13 @@ const ProductOpen = ({ data }) => {
 									validationErrors={errors}
 									onReset={() => setSubmitted(null)}
 								>
-									<Image
-										src='https://nextui.org/images/hero-card-complete.jpeg'
-										alt='productImage'
-									/>
+									<div className='w-full max-h-[350px] overflow-hidden'>
+										<Image
+											alt='Product Image'
+											className='object-cover rounded-xl w-full h-full z-0 '
+											src={data?.image}
+										/>
+									</div>
 									<div className='flex justify-between items-center'>
 										<h2 className='text-xl font-bold'>{data?.name}</h2>
 										<span className='text-xl text-red-600 font-bold'>

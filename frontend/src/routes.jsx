@@ -1,12 +1,15 @@
 import HomePage from '@/model/HomePage'
 import { createBrowserRouter } from 'react-router-dom'
-import Auth from './model/Auth'
 import Cart from './component/Cart'
 import LayoutSetting from './component/LayoutSetting'
 import Layout from './component/Laytout'
-import { AuthProvider, ProtectedRoute } from './lib/auth'
+import {
+	AuthProvider,
+	ProtectedRoute,
+	ProtectedUsersAndComponents,
+} from './lib/auth'
+import Auth from './model/Auth'
 import Products from './model/Products'
-import QrCodePage from './model/QrCodePage'
 import SettingsPage from './model/SettingsPage'
 
 const router = createBrowserRouter([
@@ -49,12 +52,21 @@ const router = createBrowserRouter([
 				element: <ProtectedRoute />,
 				children: [
 					{
-						path: '/qrcode',
-						element: <QrCodePage />,
-					},
-					{
 						path: '/settings',
 						element: <SettingsPage />,
+					},
+				],
+			},
+			{
+				element: <ProtectedUsersAndComponents />,
+				children: [
+					{
+						path: '/users',
+						element: <h1>Пользователи</h1>,
+					},
+					{
+						path: '/components',
+						element: <h1>Компоненты</h1>,
 					},
 				],
 			},

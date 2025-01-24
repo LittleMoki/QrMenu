@@ -11,21 +11,21 @@ const Cart = () => {
 		<div>
 			<h2 className='text-2xl font-semibold'>Мой заказ</h2>
 			<div className='flex flex-col gap-3'>
-				{uniqueCartItems?.map(cart => (
+				{uniqueCartItems?.map((cart, index) => (
 					<div
-						key={cart.id}
+						key={index}
 						className='text-2xl flex flex-wrap gap-3 items-center'
 					>
-						{cart.addons.map(addon => (
-							<div key={addon.id}>
-								{addon.addon.title} ({addon.title})
+						{cart.addons.map((addon, index) => (
+							<div key={index}>
+								{addon.addon?.title} ({addon?.title})
 							</div>
 						))}{' '}
 						<span className='text-red-600 font-semibold text-3xl'>
-							{cart.price} Сум
+							{cart?.price} Сум
 						</span>
 						<FaTrash
-							onClick={() => removeFromCart(cart.id)}
+							onClick={() => removeFromCart(cart?.id)}
 							className='cursor-pointer'
 						/>
 					</div>

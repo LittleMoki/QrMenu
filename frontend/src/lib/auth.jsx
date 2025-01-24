@@ -91,3 +91,15 @@ export const ProtectedRoute = () => {
 
 	return <Outlet />
 }
+
+export const ProtectedUsersAndComponents = () => {
+	const { user, isLoading } = useAuth()
+
+	if (isLoading) return <div>Loading...</div>
+
+	if (user.role !== 'admin') {
+		return <Navigate to='/' replace />
+	}
+
+	return <Outlet />
+}

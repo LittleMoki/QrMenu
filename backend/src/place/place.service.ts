@@ -17,7 +17,7 @@ export class PlaceService {
         currency: 'USD',
         description: '',
         address: '',
-        bgImage: [],
+        bgImage: 'default-bg.svg',
         city: '',
         country: '',
         phone: '',
@@ -31,11 +31,20 @@ export class PlaceService {
   }
 
   async updatePlace(id: string, updatePlaceDto: UpdatePlaceDto) {
-    const place = await this.prisma.place.findMany({});
-    const placeId = place[0].id;
+    // Получаем текущую запись
+    const place = await this.prisma.place.findUnique({ where: { id } });
+
+    if (!place) {
+      throw new Error(`Place with ID ${id} not found`);
+    }
+
+    // Обновляем запись
     return await this.prisma.place.update({
       where: { id },
-      data: updatePlaceDto,
+      data: {
+        ...updatePlaceDto, // Обновляем переданные поля
+        bgImage: updatePlaceDto.bgImage || place.bgImage, // Сохраняем старое значение, если новое не передано
+      },
     });
   }
 }

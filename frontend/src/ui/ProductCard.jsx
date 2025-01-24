@@ -35,11 +35,13 @@ const ProductCard = ({
 						isLoading={isPending}
 					/>
 				</div>
-				<Image
-					alt='Card background'
-					className='object-cover rounded-xl w-full z-0'
-					src='https://nextui.org/images/hero-card-complete.jpeg'
-				/>
+				<div className='w-full max-h-[330px] overflow-hidden'>
+					<Image
+						alt='Card background'
+						className='object-cover rounded-xl w-full h-full z-0 '
+						src={data?.image}
+					/>
+				</div>
 			</CardHeader>
 			<CardBody className='overflow-visible py-2 w-full'>
 				<h2 className='font-semibold'>{data?.name}</h2>

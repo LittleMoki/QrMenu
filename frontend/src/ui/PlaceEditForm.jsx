@@ -13,13 +13,19 @@ const PlaceEditForm = ({ fnOnClose, data }) => {
 
 	const onSubmit = e => {
 		e.preventDefault()
-		const data = Object.fromEntries(new FormData(e.currentTarget))
+		const formData = new FormData(e.currentTarget)
+
+		// Добавляем дополнительные данные в FormData
+		formData.append('id', placeId)
 
 		// Clear errors and submit
 		setErrors({})
-		setSubmitted(data)
-		mutate(data)
+		setSubmitted(Object.fromEntries(formData))
+
+		// Отправляем FormData в mutate
+		mutate(formData)
 	}
+
 	return (
 		<Form
 			className='w-full justify-center items-center space-y-4'
@@ -35,7 +41,6 @@ const PlaceEditForm = ({ fnOnClose, data }) => {
 						if (validationDetails.valueMissing) {
 							return 'Пожалуйста напишите название заведения'
 						}
-
 						return errors.name
 					}}
 					label='Название заведения'
@@ -51,7 +56,6 @@ const PlaceEditForm = ({ fnOnClose, data }) => {
 							if (validationDetails.valueMissing) {
 								return 'Пожалуйста напишите символ валюты'
 							}
-
 							return errors.currency
 						}}
 						label='Валюта'
@@ -60,7 +64,6 @@ const PlaceEditForm = ({ fnOnClose, data }) => {
 						placeholder=' '
 						defaultValue={submitted?.currency}
 					/>
-
 					<Input
 						label='Телефон'
 						labelPlacement='outside'

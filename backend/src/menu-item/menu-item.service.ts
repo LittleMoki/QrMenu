@@ -57,27 +57,38 @@ export class MenuItemService {
     const existingItem = await this.prisma.menuItem.findUnique({
       where: { id },
     });
+
     if (!existingItem) {
       throw new Error(`MenuItem with id ${id} not found`);
     }
 
+    // Убедитесь, что addons и variant существуют и являются массивами
+    const addons =
+      typeof updateMenuItemDto.addons === 'string'
+        ? JSON.parse(updateMenuItemDto.addons || '[]')
+        : updateMenuItemDto.addons || [];
+
+    const variant =
+      typeof updateMenuItemDto.variant === 'string'
+        ? JSON.parse(updateMenuItemDto.variant || '[]')
+        : updateMenuItemDto.variant || [];
     return await this.prisma.menuItem.update({
       where: { id },
       data: {
         name: updateMenuItemDto.name,
         description: updateMenuItemDto.description,
-        price: Number(updateMenuItemDto.price),
-        image: updateMenuItemDto.image,
+        price: Number(updateMenuItemDto.price) || 0,
+        image: updateMenuItemDto.image || existingItem.image,
         isAvailable: updateMenuItemDto.isAvailable,
         isVisible: updateMenuItemDto.isVisible,
         menuCategoryId: updateMenuItemDto.categoryId,
         addons: {
           set: [],
-          connect: updateMenuItemDto.addons.map((id) => ({ id })),
+          connect: addons.map((id: string) => ({ id })), // Безопасное использование map
         },
         variant: {
           set: [],
-          create: updateMenuItemDto.variant.map((el) => ({
+          create: variant.map((el: { title: string; price: string }) => ({
             title: el.title,
             price: Number(el.price),
           })),

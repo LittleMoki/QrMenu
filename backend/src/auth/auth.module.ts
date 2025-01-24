@@ -10,7 +10,6 @@ import { AuthService } from './auth.service';
   imports: [
     JwtModule.register({
       secret: process.env.JWT_SECRET, // Загрузка секретного ключа из .env файла
-      signOptions: { expiresIn: '1h' }, // Настройка срока действия токена
     }),
   ],
   exports: [JwtModule], // Экспорт для использования JwtModule в других модулях

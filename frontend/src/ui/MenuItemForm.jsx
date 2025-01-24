@@ -5,7 +5,6 @@ import {
 } from '@/api/MenuItemApiHook'
 import {
 	Button,
-	Checkbox,
 	Form,
 	Input,
 	Modal,
@@ -42,31 +41,31 @@ const MenuItemForm = ({
 	const onSubmit = e => {
 		e.preventDefault()
 		if (e.target.id !== 'menuItemForm') return
-		const data = Object.fromEntries(new FormData(e.currentTarget))
+
+		const formData = new FormData(e.currentTarget)
+
+		// Добавляем категорию, если она выбрана
+		formData.append(
+			'categoryId',
+			selectedCategory.length > 0 ? selectedCategory[0].id : id
+		)
+
+		// Преобразуем addons в строку JSON и добавляем в formData
+		formData.append('addons', JSON.stringify(selectedAddons.map(el => el.id)))
+
+		// Добавляем варианты, если они есть
+		if (variant.length > 0) {
+			formData.append('variant', JSON.stringify(variant))
+		}
+
+		// Очистка ошибок и отправка данных
 		setErrors({})
-		setSubmitted(data)
+		setSubmitted(Object.fromEntries(formData))
+
 		if (menuItemId !== undefined) {
-			put({
-				...data,
-				isVisible: data.isVisible ? true : false,
-				isAvailable: data.isAvailable ? true : false,
-				categoryId: selectedCategory.length > 0 ? selectedCategory[0].id : id,
-				image: data.image.name,
-				price: Number(data.price),
-				addons: selectedAddons.map(el => el.id),
-				variant: variant,
-			})
+			put(formData)
 		} else {
-			post({
-				...data,
-				isVisible: data.isVisible ? true : false,
-				isAvailable: data.isAvailable ? true : false,
-				categoryId: id,
-				image: data.image.name,
-				price: Number(data.price),
-				addons: selectedAddons?.map(el => el.id) || [],
-				variant: variant,
-			})
+			post(formData)
 		}
 	}
 
@@ -96,7 +95,7 @@ const MenuItemForm = ({
 					{onClose => (
 						<>
 							<ModalHeader className='flex flex-col gap-1'>
-								{data.id === menuItemId?.id
+								{data.id !== menuItemId?.id
 									? 'Добавить позицию меню'
 									: 'Редактировать позицию меню'}
 							</ModalHeader>
@@ -190,7 +189,8 @@ const MenuItemForm = ({
 											placeholder=' '
 											defaultValue={menuItemId?.description}
 										/>
-										<div className='flex gap-3 flex-wrap'>
+										{/* Todo */}
+										{/* <div className='flex gap-3 flex-wrap'>
 											<Checkbox
 												value={true}
 												classNames={{
@@ -212,7 +212,7 @@ const MenuItemForm = ({
 											>
 												Есть в наличии
 											</Checkbox>
-										</div>
+										</div> */}
 									</div>
 									<Input name='image' type='file' />
 

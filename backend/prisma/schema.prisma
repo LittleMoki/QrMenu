@@ -26,7 +26,7 @@ model Place {
   address     String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  bgImage     Json?
+  bgImage     String?
   city        String?
   country     String?
   phone       String?

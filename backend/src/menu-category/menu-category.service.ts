@@ -48,12 +48,18 @@ export class MenuCategoryService {
   }
 
   async update(id: string, updateMenuCategoryDto: UpdateMenuCategoryDto) {
+    const existingItem = await this.prisma.menuCategory.findUnique({
+      where: { id },
+    });
+    if (!existingItem) {
+      throw new Error(`MenuCategory with id ${id} not found`);
+    }
     return await this.prisma.menuCategory.update({
       where: { id },
       data: {
-        image: updateMenuCategoryDto.image,
+        image: updateMenuCategoryDto.image || existingItem.image,
         croppedImage: updateMenuCategoryDto.croppedImage,
-        isVisible: updateMenuCategoryDto.isVisible,
+        isVisible: updateMenuCategoryDto.isVisible && true,
         imageCropParams: updateMenuCategoryDto.imageCropParams,
         name: updateMenuCategoryDto.name,
         description: updateMenuCategoryDto.description,
