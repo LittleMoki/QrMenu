@@ -8,6 +8,16 @@ export class MenuItemService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(createMenuItemDto: CreateMenuItemDto) {
+    // Убедитесь, что addons и variant существуют и являются массивами
+    const addons =
+      typeof createMenuItemDto.addons === 'string'
+        ? JSON.parse(createMenuItemDto.addons || '[]')
+        : createMenuItemDto.addons || [];
+
+    const variant =
+      typeof createMenuItemDto.variant === 'string'
+        ? JSON.parse(createMenuItemDto.variant || '[]')
+        : createMenuItemDto.variant || [];
     return await this.prisma.menuItem.create({
       data: {
         name: createMenuItemDto.name,
@@ -22,10 +32,10 @@ export class MenuItemService {
           },
         },
         addons: {
-          connect: createMenuItemDto.addons.map((id) => ({ id })),
+          connect: addons.map((id: string) => ({ id })), // Безопасное использование map
         },
         variant: {
-          create: createMenuItemDto.variant.map((el) => ({
+          create: variant.map((el: { title: string; price: string }) => ({
             title: el.title,
             price: Number(el.price),
           })),
