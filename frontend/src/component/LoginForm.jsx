@@ -76,10 +76,10 @@ export default function LoginForm() {
 					isRequired
 					errorMessage={getPasswordError(password)}
 					isInvalid={getPasswordError(password) !== null}
-					label='Password'
+					label='Пароль'
 					labelPlacement='outside'
 					name='password'
-					placeholder='Enter your password'
+					placeholder='Пожалуйста введите пароль'
 					type='password'
 					value={password}
 					onValueChange={setPassword}

@@ -12,6 +12,7 @@ async function bootstrap() {
       'http://localhost:4173',
       'https://sentai.uz',
       'https://www.sentai.uz',
+      'http://31.128.46.248:5173',
     ], // Адрес фронтенда
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],

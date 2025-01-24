@@ -16,10 +16,10 @@ const Auth = () => {
 						selectedKey={selected}
 						onSelectionChange={setSelected}
 					>
-						<Tab key='login' title='Login'>
+						<Tab key='login' title='Войти'>
 							<LoginForm />
 						</Tab>
-						<Tab key='sign-up' title='Sign up'>
+						<Tab key='sign-up' title='Регистрация'>
 							<RegisterForm />
 						</Tab>
 					</Tabs>
