@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Place" ALTER COLUMN "bgImage" SET DATA TYPE TEXT;

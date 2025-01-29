@@ -22,7 +22,7 @@ export class MenuItemService {
       data: {
         name: createMenuItemDto.name,
         description: createMenuItemDto.description,
-        price: createMenuItemDto.price || 0,
+        price: Number(createMenuItemDto.price),
         image: createMenuItemDto.image,
         isAvailable: createMenuItemDto.isAvailable,
         isVisible: createMenuItemDto.isVisible,
@@ -35,7 +35,7 @@ export class MenuItemService {
           connect: addons.map((id: string) => ({ id })), // Безопасное использование map
         },
         variant: {
-          create: variant.map((el: { title: string; price: string }) => ({
+          create: variant.map((el: { title: string; price: number }) => ({
             title: el.title,
             price: Number(el.price),
           })),

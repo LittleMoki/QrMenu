@@ -32,6 +32,7 @@ const ProductOpen = ({ data }) => {
 			(acc, addon) => acc + addon.price,
 			0
 		)
+		const productName = e.target.querySelector('[name="productName"]').textContent;
 		const totalPrice =
 			data.price +
 			(addonsPriceSingle?.price || 0) +
@@ -43,6 +44,7 @@ const ProductOpen = ({ data }) => {
 			addons: [...addonsPriceMultiple, addonsPriceSingle],
 			variant: variant,
 			price: totalPrice,
+			name:productName
 		}
 		try {
 			// Добавляем товар в корзину
@@ -85,11 +87,11 @@ const ProductOpen = ({ data }) => {
 											src={data?.image}
 										/>
 									</div>
-									<div className='flex justify-between items-center'>
-										<h2 className='text-xl font-bold'>{data?.name}</h2>
+									<div className='flex justify-between items-center gap-2'>
+										<h2 name='productName' className='text-xl font-bold'>{data?.name}</h2>
 										<span className='text-xl text-red-600 font-bold'>
 											{data?.price > 0 && data?.variant.length === 0
-												? data?.price
+												? `${data?.price} сум`
 												: ''}
 										</span>
 									</div>
@@ -108,7 +110,7 @@ const ProductOpen = ({ data }) => {
 														<div className='text-xl'>
 															{variant.title}{' '}
 															<span className='text-red-600'>
-																{variant.price}$
+																{variant.price} сум
 															</span>
 														</div>
 													</Radio>
