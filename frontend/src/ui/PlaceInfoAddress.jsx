@@ -2,7 +2,7 @@ import { FaLocationDot, FaPhone, FaWifi } from 'react-icons/fa6'
 
 const PlaceInfoAddress = ({ address, country, city, phone, wifi }) => {
 	return (
-		<div className='flex flex-wrap gap-2 items-start text-white'>
+		<div className='flex flex-wrap gap-2 items-start'>
 			{(address || country || city) && (
 				<div className='flex items-center gap-2'>
 					<FaLocationDot />
