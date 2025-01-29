@@ -1,3 +1,4 @@
+import { bgApi } from '@/api/api'
 import { useCart } from '@/lib/cart'
 import {
 	Button,
@@ -32,7 +33,9 @@ const ProductOpen = ({ data }) => {
 			(acc, addon) => acc + addon.price,
 			0
 		)
-		const productName = e.target.querySelector('[name="productName"]').textContent;
+		const productName = e.target.querySelector(
+			'[name="productName"]'
+		).textContent
 		const totalPrice =
 			data.price +
 			(addonsPriceSingle?.price || 0) +
@@ -44,7 +47,7 @@ const ProductOpen = ({ data }) => {
 			addons: [...addonsPriceMultiple, addonsPriceSingle],
 			variant: variant,
 			price: totalPrice,
-			name:productName
+			name: productName,
 		}
 		try {
 			// Добавляем товар в корзину
@@ -53,6 +56,8 @@ const ProductOpen = ({ data }) => {
 			console.error('Ошибка при добавлении товара в корзину:', error)
 		}
 	}
+	const currency = localStorage.getItem('currency')
+
 
 	return (
 		<>
@@ -80,15 +85,18 @@ const ProductOpen = ({ data }) => {
 									validationErrors={errors}
 									onReset={() => setSubmitted(null)}
 								>
-									<div className='w-full max-h-[350px] overflow-hidden'>
+									<div className='w-full h-[350px] overflow-hidden'>
 										<Image
 											alt='Product Image'
 											className='object-cover rounded-xl w-full h-full z-0 '
-											src={data?.image}
+											src={`${bgApi}${data?.image}`}
+											height={350}
 										/>
 									</div>
 									<div className='flex justify-between items-center gap-2'>
-										<h2 name='productName' className='text-xl font-bold'>{data?.name}</h2>
+										<h2 name='productName' className='text-xl font-bold'>
+											{data?.name}
+										</h2>
 										<span className='text-xl text-red-600 font-bold'>
 											{data?.price > 0 && data?.variant.length === 0
 												? `${data?.price} сум`
@@ -110,7 +118,7 @@ const ProductOpen = ({ data }) => {
 														<div className='text-xl'>
 															{variant.title}{' '}
 															<span className='text-red-600'>
-																{variant.price} сум
+																{variant.price} {currency}
 															</span>
 														</div>
 													</Radio>
@@ -133,7 +141,7 @@ const ProductOpen = ({ data }) => {
 														<div className='text-xl'>
 															{option.title}{' '}
 															<span className='text-red-600'>
-																{option.price}$
+																{option.price} {currency}
 															</span>
 														</div>
 													</Radio>
@@ -153,7 +161,7 @@ const ProductOpen = ({ data }) => {
 														<div className='text-xl'>
 															{option.title}{' '}
 															<span className='text-red-600'>
-																{option.price}$
+																{option.price} {currency}
 															</span>
 														</div>
 													</Checkbox>

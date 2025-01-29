@@ -8,7 +8,7 @@ const OptionsButton = ({ deleteMenu, id, isLoading = false, customButton }) => {
 		<span
 			className={`${
 				user?.role === 'admin' ? 'flex' : 'hidden'
-			} justify-center gap-3 bg-red-600 px-4 min-h-[40px] items-center rounded-xl`}
+			} justify-center gap-3 bg-red-600 px-4 min-h-[40px] items-center rounded-xl text-white`}
 		>
 			{customButton ? (
 				customButton

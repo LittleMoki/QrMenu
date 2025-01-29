@@ -12,7 +12,7 @@ const CategoryItem = ({ data }) => {
 				to={`/${data.id}`}
 				style={{ backgroundImage: `url(${data?.image})` }}
 			>
-				<h2 className='relative z-[1] text-3xl font-semibold'>{data.name}</h2>
+				<h2 className='relative text-white z-[1] text-3xl font-semibold'>{data.name}</h2>
 			</Link>
 
 			<div className='absolute z-[2] right-3 top-3'>

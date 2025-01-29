@@ -25,7 +25,7 @@ export class PlaceController {
   @UseInterceptors(
     FileInterceptor('bgImage', {
       storage: diskStorage({
-        destination: '../frontend/public', // Путь к папке для сохранения файлов
+      destination: './uploads', // Путь к папке для сохранения файлов
         filename: (req, file, callback) => {
           const originalName = file.originalname;
           callback(null, originalName);
@@ -42,7 +42,6 @@ export class PlaceController {
     if (file) {
       updatePlaceDto.bgImage = `/${file.filename}`;
     }
-
     // Обновляем место
     return await this.placeService.updatePlace(id, updatePlaceDto);
   }

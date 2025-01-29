@@ -1,3 +1,4 @@
+import { bgApi } from '@/api/api'
 import { useMenuItemMutationDelete } from '@/api/MenuItemApiHook'
 import { Card, CardBody, CardHeader, Image } from '@nextui-org/react'
 import MenuItemButton from './MenuItemButton'
@@ -17,7 +18,7 @@ const ProductCard = ({
 	return (
 		<Card className='py-4 w-full dark'>
 			<CardHeader className='pb-0 relative pt-2 px-4 flex-col items-start'>
-				<div className='absolute flex items-center right-0 top-0 z-10'>
+				<div className='absolute flex items-center right-3 top-0 z-10'>
 					<OptionsButton
 						customButton={
 							<MenuItemButton
@@ -35,11 +36,13 @@ const ProductCard = ({
 						isLoading={isPending}
 					/>
 				</div>
-				<div className='w-full max-h-[330px] overflow-hidden'>
+				<div className='w-full h-[330px] overflow-hidden'>
 					<Image
 						alt='Card background'
 						className='object-cover rounded-xl w-full h-full z-0 '
-						src={data?.image}
+						src={`${bgApi}${data?.image}`}
+						height={350}
+
 					/>
 				</div>
 			</CardHeader>

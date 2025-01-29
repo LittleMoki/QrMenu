@@ -37,7 +37,6 @@ export class PlaceService {
     if (!place) {
       throw new Error(`Place with ID ${id} not found`);
     }
-
     // Обновляем запись
     return await this.prisma.place.update({
       where: { id },

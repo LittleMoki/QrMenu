@@ -11,8 +11,8 @@ const MenuItem = ({ data, id, setId }) => {
 				to={'/'}
 				onClick={() => setId(data.id)}
 				className={`${
-					id === data.id ? 'bg-red-600' : 'bg-red-300'
-				}  px-4 py-1 rounded-xl cursor-pointer`}
+					id === data.id ? 'bg-red-600' : 'bg-red-500'
+				}  px-4 py-1 rounded-xl cursor-pointer text-white`}
 			>
 				{data.name}
 			</Link>

@@ -4,7 +4,7 @@ import { Footer } from './Footer'
 const LayoutSetting = () => {
 	return (
 		<>
-			<main className='min-h-[calc(100vh-50px)] max-w-[600px] mx-auto'>
+			<main className='min-h-[calc(100vh-50px)] bg-white max-w-[600px] mx-auto'>
 				<Outlet />
 			</main>
 			<Footer />

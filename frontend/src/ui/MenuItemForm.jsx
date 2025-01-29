@@ -51,7 +51,9 @@ const MenuItemForm = ({
 		)
 
 		// Преобразуем addons в строку JSON и добавляем в formData
-		formData.append('addons', JSON.stringify(selectedAddons.map(el => el.id)))
+		if (selectedAddons !== undefined) {
+			formData.append('addons', JSON.stringify(selectedAddons.map(el => el.id)))
+		}
 
 		// Добавляем варианты, если они есть
 		if (variant.length > 0) {

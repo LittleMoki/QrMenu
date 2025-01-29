@@ -16,7 +16,7 @@ const MenuCategoryButton = ({ id, data = [] }) => {
 							onOpen()
 							setIdCategory(data.id)
 						}}
-						className='min-w-4 min-h-4 cursor-pointer'
+						className='min-w-4 min-h-4 cursor-pointer '
 					/>
 				</div>
 			) : (
@@ -25,7 +25,7 @@ const MenuCategoryButton = ({ id, data = [] }) => {
 						onOpen()
 						setIdCategory(data.id)
 					}}
-					className='bg-red-600 py-3 cursor-pointer rounded-full flex justify-center'
+					className='bg-red-600 text-white py-3 cursor-pointer rounded-full flex justify-center'
 				>
 					<FaPlus />
 				</span>

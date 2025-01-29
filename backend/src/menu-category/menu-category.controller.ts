@@ -23,7 +23,7 @@ export class MenuCategoryController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: '../frontend/public', // Путь к папке для сохранения файлов
+        destination: './uploads', // Путь к папке для сохранения файлов
         // Путь к папке для сохранения файлов
         filename: (req, file, callback) => {
           const originalName = file.originalname;
@@ -56,7 +56,7 @@ export class MenuCategoryController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: '../frontend/public', // Путь к папке для сохранения файлов
+        destination: './uploads', // Путь к папке для сохранения файлов
         filename: (req, file, callback) => {
           const originalName = file.originalname;
           callback(null, originalName);

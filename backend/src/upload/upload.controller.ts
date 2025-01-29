@@ -1,15 +1,26 @@
 import {
   Controller,
+  Get,
   Post,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { readdirSync } from 'fs'
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
 
 @Controller('upload')
 export class UploadController {
+  @Get('photos')
+  getPhotos() {
+    const path = join(__dirname, '..', 'uploads');
+    const files = readdirSync(path); // Читаем файлы из папки
+    return files.map((file) => ({
+      filename: file,
+      url: `/uploads/${file}`, // Генерируем URL
+    }));
+  }
   @Post('photo')
   @UseInterceptors(
     FileInterceptor('file', {

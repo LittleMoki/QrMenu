@@ -38,7 +38,7 @@ export class AuthService {
     if (!user || !(await bcrypt.compare(password, user.password))) {
       throw new UnauthorizedException('Некорректный номер телефона или пароль');
     }
-
+    
     const payload = {
       id: user.id,
       firstName: user.firstName,
@@ -81,7 +81,6 @@ export class AuthService {
         role: 'user', // По умолчанию создаем обычного пользователя
       },
     });
-
     const payload = {
       id: user.id,
       firstName: user.firstName,
@@ -106,7 +105,6 @@ export class AuthService {
       const user = await this.prisma.user.findUnique({
         where: { id: payload.id },
       });
-
       if (!user) {
         throw new UnauthorizedException('Пользователь не найден');
       }

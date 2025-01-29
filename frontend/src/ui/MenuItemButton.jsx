@@ -27,7 +27,7 @@ const MenuItemButton = ({
 						onOpen()
 						setMenuItemId(undefined)
 					}}
-					className='bg-red-600 py-3 mt-3 cursor-pointer rounded-full flex justify-center'
+					className='bg-red-600 py-3 mt-3 cursor-pointe text-white  rounded-full flex justify-center'
 				>
 					<FaPlus />
 				</span>

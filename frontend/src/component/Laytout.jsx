@@ -20,12 +20,12 @@ const Laytout = () => {
 			setId(menuData[0].id)
 		}
 	}, [menuData])
-
+	localStorage.setItem('currency', data?.currency)
 	return (
 		<>
 			<MenuContext.Provider value={{ id }}>
 				<Header image={data?.bgImage} />
-				<main className='container mx-auto max-w-[600px] min-h-[calc(100vh-190px)] pb-16 pt-6 px-4 flex flex-col flex-grow-1 relative rounded-t-3xl mt-[-32px] bg-[#181a1b]'>
+				<main className='container mx-auto max-w-[600px] min-h-[calc(100vh-190px)] pb-16 pt-6 px-4 flex flex-col flex-grow-1 relative rounded-t-3xl mt-[-20px] bg-[#fff] '>
 					<HomePageTitle data={data} />
 					<PlaceInfo data={data} />
 					<MenuList id={id} setId={setId} data={menuData} />

@@ -33,7 +33,7 @@ const MenuAddButton = () => {
 		<>
 			<span
 				onClick={onOpen}
-				className='bg-red-600 p-3 rounded-full cursor-pointer'
+				className='bg-red-600 p-3 text-white rounded-full cursor-pointer'
 			>
 				<FaPlus />
 			</span>

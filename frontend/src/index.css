@@ -6,6 +6,7 @@
 
 body {
 	font-family: 'Montserrat', sans-serif;
-	color: white;
-	background-color: #1d2021;
+	/* color: white; */
+	/* background-color:#f18c20; */
+	background: -webkit-linear-gradient(90deg, #5d0000,#d00309)
 }

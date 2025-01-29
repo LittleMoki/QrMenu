@@ -8,14 +8,14 @@ const SettingsPage = () => {
 	return (
 		<div className='py-5 px-3 flex flex-col gap-3'>
 			<div className='w-full bg-[#18181b] flex justify-between items-center px-3 py-4 rounded-lg'>
-				<div className='text-xl font-semibold'>
+				<div className='text-xl font-semibold text-white'>
 					{user.firstName} {user.secondName}
 				</div>
 				<Button onPress={logout}>Выйти</Button>
 			</div>
 			<Link
 				to='/cart'
-				className='w-full bg-[#18181b] flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
+				className='w-ful text-white bg-[#18181b] flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
 			>
 				<FaCartShopping />
 				Моя корзина
@@ -23,7 +23,7 @@ const SettingsPage = () => {
 			{user.role === 'admin' && (
 				<Link
 					to='/components'
-					className='w-full bg-[#18181b] flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
+					className='w-full bg-[#18181b] text-white flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
 				>
 					<FaPizzaSlice />
 					Добавки
@@ -32,7 +32,7 @@ const SettingsPage = () => {
 			{user.role === 'admin' && (
 				<Link
 					to='/users'
-					className='w-full bg-[#18181b] flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
+					className='w-full bg-[#18181b] text-white flex justify-center gap-3 items-center px-3 py-4 text-xl rounded-lg'
 				>
 					<FaUser />
 					Пользователи

@@ -9,6 +9,7 @@ import { MenuItemModule } from './menu-item/menu-item.module';
 import { MenuModule } from './menu/menu.module';
 import { PlaceModule } from './place/place.module';
 import { UploadModule } from './upload/upload.module';
+
 @Module({
   imports: [
     PlaceModule,
@@ -20,12 +21,12 @@ import { UploadModule } from './upload/upload.module';
     CartModule,
     UploadModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-      serveRoot: '/uploads/',  // Путь для доступа, добавлен слэш в конце
+      rootPath: join(process.cwd(), 'uploads'), 
+      serveRoot: '/uploads',
     }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'frontend', 'public'), // Указываем путь к папке public
-      serveRoot: '/public', // Путь, по которому будет доступен файл
+      rootPath: join(process.cwd(), 'frontend', 'public'), 
+      serveRoot: '/public',
     }),
   ],
   controllers: [],
